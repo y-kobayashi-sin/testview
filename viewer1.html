@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Viewer 1</title>
+<style>
+body { margin:0; background:#000; }
+img { width:100%; display:block; }
+</style>
+</head>
+<body>
+
+<div id="container"></div>
+
+<script>
+// 🔒 簡易認証
+if (sessionStorage.getItem("auth") !== "ok") {
+  location.href = "index.html";
+}
+
+const container = document.getElementById("container");
+const FOLDER = "WT01";
+
+async function loadImages() {
+  for (let i = 1; i <= 500; i++) {
+    const num = String(i).padStart(3, '0');
+    let loaded = false;
+
+    for (const ext of ["jpg","png","jpeg"]) {
+      const img = new Image();
+      const path = `${FOLDER}/${num}.${ext}`;
+
+      await new Promise(resolve => {
+        img.onload = () => {
+          container.appendChild(img);
+          loaded = true;
+          resolve();
+        };
+        img.onerror = resolve;
+        img.src = path + "?t=" + Date.now(); // ←キャッシュ防止
+      });
+
+      if (loaded) break;
+    }
+  }
+}
+
+loadImages();
+</script>
+
+</body>
+</html>
