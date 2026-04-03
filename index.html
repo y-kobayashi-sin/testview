@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Webtoon Index</title>
+<style>
+body {
+  background:#111;
+  color:#fff;
+  font-family:sans-serif;
+  text-align:center;
+  padding-top:50px;
+}
+button {
+  display:block;
+  margin:10px auto;
+  padding:15px;
+  width:200px;
+  font-size:16px;
+}
+</style>
+</head>
+<body>
+
+<h2>閲覧ページ</h2>
+
+<input type="password" id="pass" placeholder="パスワード"><br><br>
+<button onclick="login()">ログイン</button>
+
+<div id="links" style="display:none;">
+  <button onclick="go(1)">WT01</button>
+  <button onclick="go(2)">WT02</button>
+  <button onclick="go(3)">WT03</button>
+  <button onclick="go(4)">WT04</button>
+  <button onclick="go(5)">WT05</button>
+</div>
+
+<script>
+const PASSWORD = "1234"; // ←変更
+
+function login() {
+  const input = document.getElementById("pass").value;
+  if (input === PASSWORD) {
+    sessionStorage.setItem("auth", "ok");
+    document.getElementById("links").style.display = "block";
+  } else {
+    alert("パスワードが違います");
+  }
+}
+
+function go(num) {
+  location.href = `viewer${num}.html`;
+}
+</script>
+
+</body>
+</html>
